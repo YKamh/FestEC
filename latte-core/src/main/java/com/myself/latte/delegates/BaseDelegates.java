@@ -22,10 +22,12 @@ public abstract class BaseDelegates extends SwipeBackFragment{
     private Unbinder mUnbinder = null;
 
     //可以传入是一个View 也可以是一个Layout的id
+    //输入口
     public abstract Object setLayout();
 
     public abstract void onBindView(@Nullable Bundle savedInstanceState, View rootView);
 
+    //处理
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

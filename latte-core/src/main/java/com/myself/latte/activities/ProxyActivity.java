@@ -16,18 +16,23 @@ import me.yokeyword.fragmentation.SupportActivity;
 
 public abstract class ProxyActivity extends SupportActivity {
     //返回BaseDelegates
+    //输入口
     public abstract LatteDelegate setRootDelegate();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initContainer(savedInstanceState);
     }
-
+    //处理
     private void initContainer(@Nullable Bundle savedInstanceState){
+        //实例化一个布局
         final ContentFrameLayout container = new ContentFrameLayout(this);
+        //赋予该布局一个ID
         container.setId(R.id.delegate_container);
         setContentView(container);
         if (savedInstanceState == null){
+            //赋予id 并显示
             loadRootFragment(R.id.delegate_container, setRootDelegate());
         }
     }

@@ -10,10 +10,11 @@ public enum  EcIcons implements Icon {
     icon_scan('\ue62f'),
     icon_ali_pay('\ue64b');
 
-    private char cjaracter;
+    //一个返回变量
+    private char character;
 
-    EcIcons(char cjaracter) {
-        this.cjaracter = cjaracter;
+    EcIcons(char character) {
+        this.character = character;
     }
 
     @Override
@@ -23,6 +24,6 @@ public enum  EcIcons implements Icon {
 
     @Override
     public char character() {
-        return 0;
+        return character;
     }
 }

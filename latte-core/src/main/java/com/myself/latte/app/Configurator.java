@@ -13,20 +13,20 @@ import java.util.WeakHashMap;
  */
 
 public class Configurator {
-
+    //存放配置信息的HashMap
     private static final HashMap<String, Object> LATTE_CONFIGS = new HashMap<>();
     private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
 
-
+    //初始化类实例开始时，将CONFIG_READY状态设为false
     private Configurator() {
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), false);
     }
 
-    //线程安全的懒汉模式
+    //线程安全的懒汉模式，获取单例初始化类的实例
     public static Configurator getInstance() {
         return Holder.INSTANCE;
     }
-
+    //返回配置的HashMap
     final HashMap<String, Object> getLatteConfigs() {
         return LATTE_CONFIGS;
     }
@@ -35,17 +35,25 @@ public class Configurator {
     private static class Holder {
         private static final Configurator INSTANCE = new Configurator();
     }
-
+    //最终初始化的动作
     public final void configure() {
+        //初始化字体
         initIcons();
+        //初始化初始化状态
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), true);
     }
 
+    //初始化的输入
+    public final Configurator withIcon(IconFontDescriptor descriptor) {
+        ICONS.add(descriptor);
+        return this;
+    }
+    //初始化的输入
     public final Configurator withApiHost(String host) {
         LATTE_CONFIGS.put(ConfigType.API_HOST.name(), host);
         return this;
     }
-
+    //初始化字体库
     private void initIcons() {
         if (ICONS.size() > 0) {
             final Iconify.IconifyInitializer initializer = Iconify.with(ICONS.get(0));
@@ -55,11 +63,7 @@ public class Configurator {
         }
     }
 
-    public final Configurator withIcon(IconFontDescriptor descriptor) {
-        ICONS.add(descriptor);
-        return this;
-    }
-
+    //检查是否初始化完成
     private void checkConfiguration() {
         final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigType.CONFIG_READY.name());
         if (!isReady) {
@@ -67,6 +71,8 @@ public class Configurator {
         }
     }
 
+    //输出
+    // 获取某一项配置信息
     @SuppressWarnings("unchecked")
     final <T> T getConfiguration(Enum<ConfigType> key) {
         checkConfiguration();
