@@ -3,6 +3,7 @@ package com.myself.latte.net;
 import com.myself.latte.app.ConfigType;
 import com.myself.latte.app.Latte;
 
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -11,10 +12,19 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by Administrator on 2018/1/19.
- * 网络请求类的构造者
+ * 网络请求类的必要配置以及参数单例共享构造者
  */
 
 public class RestCreator {
+
+    //线程安全单例的静态内部类,请求参数单例
+    private static final class ParamsHolder{
+        private static final WeakHashMap<String, Object> PARAMS = new WeakHashMap<>();
+    }
+
+    public static WeakHashMap<String, Object> getParams(){
+        return ParamsHolder.PARAMS;
+    }
 
     public static RestService getRestService(){
         return RestServiceHolder.REST_SERVICE;

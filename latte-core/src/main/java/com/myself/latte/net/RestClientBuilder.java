@@ -1,0 +1,79 @@
+package com.myself.latte.net;
+
+import com.myself.latte.net.callback.IError;
+import com.myself.latte.net.callback.IFailure;
+import com.myself.latte.net.callback.IRequest;
+import com.myself.latte.net.callback.ISuccess;
+
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
+/**
+ * Created by Administrator on 2018/1/19.
+ * Builder无非就是传值的操作，也就是最累的那个建造者
+ * 为创建一个产品对象的各个部件指定抽象接口。
+ */
+
+public class RestClientBuilder {
+
+    private String mUrl;
+    private static final Map<String, Object> PARAMS = RestCreator.getParams();
+    private IRequest mIRequest;
+    private ISuccess mISuccess;
+    private IFailure mIFailure;
+    private IError mIError;
+    private RequestBody mBody;
+
+    //只允许同包的RestClient去new他
+    RestClientBuilder(){
+
+    }
+
+    public final RestClientBuilder url(String url){
+        this.mUrl = url;
+        return this;
+    }
+
+    public final RestClientBuilder params(WeakHashMap<String, Object> params){
+        PARAMS.putAll(params);
+        return this;
+    }
+
+    public final RestClientBuilder params(String key, Object value){
+        PARAMS.put(key, value);
+        return this;
+    }
+
+    public final RestClientBuilder raw(String raw){
+        this.mBody = RequestBody.create(MediaType.parse("application/json;charset-UFT-8"), raw);
+        return this;
+    }
+
+    public final RestClientBuilder onRequest(IRequest iRequest){
+        this.mIRequest = iRequest;
+        return this;
+    }
+
+    public final RestClientBuilder sueccess(ISuccess iSuccess){
+        this.mISuccess = iSuccess;
+        return this;
+    }
+
+    public final RestClientBuilder failure(IFailure iFailure){
+        this.mIFailure = iFailure;
+        return this;
+    }
+
+    public final RestClientBuilder error(IError iError){
+        this.mIError = iError;
+        return this;
+    }
+
+    //建造完成后就做最后的交付，还给Client
+    public final RestClient build(){
+        return new RestClient(mUrl, PARAMS, mIRequest, mISuccess, mIFailure, mIError, mBody);
+    }
+}
