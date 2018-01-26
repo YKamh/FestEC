@@ -1,10 +1,15 @@
 package com.myself.latte.net;
 
+import android.content.Context;
+
+import com.myself.latte.app.Latte;
 import com.myself.latte.net.callback.IError;
 import com.myself.latte.net.callback.IFailure;
 import com.myself.latte.net.callback.IRequest;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.net.callback.RequestCallbacks;
+import com.myself.latte.ui.LatteLoader;
+import com.myself.latte.ui.LoaderStyle;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -28,6 +33,8 @@ public class RestClient {
     private final IFailure IFAILURE;
     private final IError IERROR;
     private final RequestBody BODY;
+    private final LoaderStyle LOADER_STYLE;
+    private final Context CONTEXT;
 
     public RestClient(String url,
                       Map<String, Object> params,
@@ -35,7 +42,9 @@ public class RestClient {
                       ISuccess iSuccess,
                       IFailure iFailure,
                       IError iError,
-                      RequestBody body) {
+                      RequestBody body,
+                      Context context,
+                      LoaderStyle loaderStyle) {
         this.URL = url;
         PARAMS.putAll(params);
         this.IREQUEST = iRequest;
@@ -43,6 +52,8 @@ public class RestClient {
         this.IFAILURE = iFailure;
         this.IERROR = iError;
         this.BODY = body;
+        this.CONTEXT = context;
+        this.LOADER_STYLE = loaderStyle;
     }
 
     //创建构造者,让建造者去建造
@@ -56,6 +67,10 @@ public class RestClient {
 
         if (IREQUEST != null){
             IREQUEST.onRequestStart();
+        }
+
+        if (LOADER_STYLE != null){
+            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
         }
 
         switch (method){
@@ -86,7 +101,8 @@ public class RestClient {
                 IREQUEST,
                 ISUCCESS,
                 IFAILURE,
-                IERROR
+                IERROR,
+                LOADER_STYLE
         );
     }
 
