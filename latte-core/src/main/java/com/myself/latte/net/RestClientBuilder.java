@@ -34,6 +34,10 @@ public class RestClientBuilder {
     private LoaderStyle mLoaderStyle = null;
     private File mFile = null;
 
+    private String mDownLoadDir = null;
+    private String mExtension = null;
+    private String mName = null;
+
     //只允许同包的RestClient去new他
     RestClientBuilder(){
 
@@ -61,6 +65,21 @@ public class RestClientBuilder {
 
     public final RestClientBuilder params(String key, Object value){
         PARAMS.put(key, value);
+        return this;
+    }
+
+    public final RestClientBuilder name(String name){
+        this.mName = name;
+        return this;
+    }
+
+    public final RestClientBuilder dir(String dir){
+        this.mDownLoadDir = dir;
+        return this;
+    }
+
+    public final RestClientBuilder extension(String extension){
+        this.mExtension = extension;
         return this;
     }
 
@@ -103,6 +122,6 @@ public class RestClientBuilder {
 
     //建造完成后就做最后的交付，还给Client
     public final RestClient build(){
-        return new RestClient(mUrl, PARAMS, mIRequest, mISuccess, mIFailure, mIError, mBody, mContext, mLoaderStyle, mFile);
+        return new RestClient(mUrl, PARAMS, mIRequest, mISuccess, mIFailure, mIError, mBody, mContext, mLoaderStyle, mFile, mDownLoadDir, mExtension, mName);
     }
 }

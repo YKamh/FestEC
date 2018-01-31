@@ -8,6 +8,7 @@ import com.myself.latte.net.callback.IFailure;
 import com.myself.latte.net.callback.IRequest;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.net.callback.RequestCallbacks;
+import com.myself.latte.net.download.DownloadHandler;
 import com.myself.latte.ui.LatteLoader;
 import com.myself.latte.ui.LoaderStyle;
 
@@ -20,6 +21,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.http.HTTP;
 import retrofit2.http.Multipart;
 
 /**
@@ -33,6 +35,9 @@ public class RestClient {
     private final String URL;
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
     private final IRequest IREQUEST;
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
     private final ISuccess ISUCCESS;
     private final IFailure IFAILURE;
     private final IError IERROR;
@@ -50,7 +55,10 @@ public class RestClient {
                       RequestBody body,
                       Context context,
                       LoaderStyle loaderStyle,
-                      File file) {
+                      File file,
+                      String downloadDir,
+                      String extension,
+                      String name) {
         this.URL = url;
         PARAMS.putAll(params);
         this.IREQUEST = iRequest;
@@ -61,6 +69,9 @@ public class RestClient {
         this.CONTEXT = context;
         this.LOADER_STYLE = loaderStyle;
         this.FILE = file;
+        this.DOWNLOAD_DIR = downloadDir;
+        this.EXTENSION = extension;
+        this.NAME = name;
     }
 
     //创建构造者,让建造者去建造
@@ -152,6 +163,15 @@ public class RestClient {
 
     public final void delete(){
         request(HttpMethod.DELETE);
+    }
+
+    public final void upload(){
+        request(HttpMethod.UPLOAD);
+    }
+
+    public final void download(){
+        new DownloadHandler(URL, IREQUEST, DOWNLOAD_DIR, EXTENSION, NAME,ISUCCESS, IFAILURE, IERROR)
+                .handleDownload();
     }
 
 }
