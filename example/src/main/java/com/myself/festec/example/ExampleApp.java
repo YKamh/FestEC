@@ -18,6 +18,8 @@ public class ExampleApp extends Application{
         Latte.init(this)
                 .withApiHost("http://127.0.0.1/")
                 .withIcon(new FontAwesomeModule())
+                .withLoaderDelayed(1000)
+//                .withInterceptor()
                 .withIcon(new FontEcModule())//初始化自定义字体库
                 .configure();
     }
