@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <android.support.v7.internal.widget.CompatTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_launcher_timer"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/border_circle_timer"
         android:gravity="center"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="16sp"/>
 
 </RelativeLayout>
