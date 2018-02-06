@@ -2,15 +2,14 @@ package com.myself.latte.net;
 
 import android.content.Context;
 
-import com.myself.latte.app.Latte;
 import com.myself.latte.net.callback.IError;
 import com.myself.latte.net.callback.IFailure;
 import com.myself.latte.net.callback.IRequest;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.net.callback.RequestCallbacks;
 import com.myself.latte.net.download.DownloadHandler;
-import com.myself.latte.ui.LatteLoader;
-import com.myself.latte.ui.LoaderStyle;
+import com.myself.latte.ui.loader.LatteLoader;
+import com.myself.latte.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.Map;
@@ -21,8 +20,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.http.HTTP;
-import retrofit2.http.Multipart;
 
 /**
  * Created by Administrator on 2018/1/18.

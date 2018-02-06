@@ -1,7 +1,7 @@
 package com.myself.latte.net.callback;
 
-import com.myself.latte.ui.LatteLoader;
-import com.myself.latte.ui.LoaderStyle;
+import com.myself.latte.ui.loader.LatteLoader;
+import com.myself.latte.ui.loader.LoaderStyle;
 
 import android.os.Handler;
 

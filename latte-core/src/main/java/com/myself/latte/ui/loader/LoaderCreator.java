@@ -1,4 +1,4 @@
-package com.myself.latte.ui;
+package com.myself.latte.ui.loader;
 
 import android.content.Context;
 
