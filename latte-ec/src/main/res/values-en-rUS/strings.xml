@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_up">Sing In</string>
+    <string name="name">NAME</string>
+    <string name="email">Email</string>
+    <string name="phone_num">PhoneNumber</string>
+    <string name="pwd">Password</string>
+    <string name="repeat">Repeat Password</string>
+    <string name="already_registered">Have Already Registered? Please Login</string>
+    <string name="please_input_name">请输入姓名</string>
+</resources>
