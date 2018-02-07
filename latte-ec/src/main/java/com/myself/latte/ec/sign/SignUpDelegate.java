@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.log.LatteLogger;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 
@@ -36,17 +37,22 @@ public class SignUpDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp(){
         if (checkForm()){
-//            RestClient.builder()
-//                    .url("sign_up")
-//                    .params("", "")
-//                    .sueccess(new ISuccess() {
-//                        @Override
-//                        public void onSuccess(String response) {
-//
-//                        }
-//                    })
-//                    .build()
-//                    .post();
+            RestClient.builder()
+                    .url("sign_up")
+                    .params("name", mName.getText().toString())
+                    .params("email", mEmail.getText().toString())
+                    .params("phone", mPhone.getText().toString())
+                    .params("password", mPwd.getText().toString())
+                    .sueccess(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            LatteLogger.json("USER_PROFILE", response);
+                            //将用户数据持久化写进数据库
+                            SignHandler.onSignUp(response);
+                        }
+                    })
+                    .build()
+                    .post();
             Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
         }
     }

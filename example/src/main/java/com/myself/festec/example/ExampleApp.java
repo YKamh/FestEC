@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.myself.latte.app.Latte;
+import com.myself.latte.ec.database.DatabaseManager;
 import com.myself.latte.ec.icon.FontEcModule;
 import com.myself.latte.net.Interceptors.DebugIntercepot;
 
@@ -23,5 +24,6 @@ public class ExampleApp extends Application{
                 .withIcon(new FontEcModule())//初始化自定义字体库
                 .withInterceptor(new DebugIntercepot("index", R.raw.test))
                 .configure();
+        DatabaseManager.getInstance().init(this);
     }
 }

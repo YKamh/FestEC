@@ -53,4 +53,9 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     //FastJson
     compile 'com.alibaba:fastjson:1.2.44'
+    //Log
+    compile 'com.orhanobut:logger:2.1.1'
+    //数据库依赖
+    compile 'org.greenrobot:greendao-generator:3.2.2'
+    compile 'org.greenrobot:greendao:3.2.2'
 }
