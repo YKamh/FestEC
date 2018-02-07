@@ -8,4 +8,6 @@
     <string name="repeat">Repeat Password</string>
     <string name="already_registered">Have Already Registered? Please Login</string>
     <string name="please_input_name">请输入姓名</string>
+    <string name="sign_in">登录</string>
+    <string name="goto_sign_up">还没有账户？现在注册吧</string>
 </resources>

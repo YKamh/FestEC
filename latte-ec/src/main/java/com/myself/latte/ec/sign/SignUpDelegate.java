@@ -51,6 +51,11 @@ public class SignUpDelegate extends LatteDelegate {
         }
     }
 
+    @OnClick(R2.id.tv_link_sign_in)
+    void onClickLink(){
+        start(new SignInDelegate());
+    }
+
     //输入框验证方法
     private boolean checkForm(){
         final String name = mName.getText().toString();
