@@ -23,6 +23,8 @@ public class ExampleApp extends Application{
                 .withLoaderDelayed(1000)
                 .withIcon(new FontEcModule())//初始化自定义字体库
                 .withInterceptor(new DebugIntercepot("index", R.raw.test))
+                .withWeChatAppId("")
+                .withWeChatAppSecret("")
                 .configure();
         DatabaseManager.getInstance().init(this);
     }
