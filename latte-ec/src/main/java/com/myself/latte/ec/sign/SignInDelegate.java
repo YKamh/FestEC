@@ -67,7 +67,7 @@ public class SignInDelegate extends LatteDelegate {
         LatteWeChat.getInstance().onSignInSuccess(new IWeChatSignInCallback() {
             @Override
             public void onSignInSuccess(String userInfo) {
-
+                Toast.makeText(getContext(), userInfo, Toast.LENGTH_SHORT).show();
             }
         }).signIn();
     }
