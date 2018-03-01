@@ -10,6 +10,7 @@ import com.myself.latte.app.Latte;
 import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.launcher.LauncherDelegate;
 import com.myself.latte.ec.launcher.LauncherScrollDelegate;
+import com.myself.latte.ec.mian.EcBottomDelegate;
 import com.myself.latte.ec.sign.ISignListener;
 import com.myself.latte.ec.sign.SignInDelegate;
 import com.myself.latte.ec.sign.SignUpDelegate;
@@ -32,7 +33,7 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public LatteDelegate setRootDelegate() {
-        return new SignUpDelegate();
+        return new LauncherDelegate();
     }
 
     @Override
@@ -47,17 +48,17 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onLauncherFinish(OnLauncherFinishTag tag) {
-        switch (tag){
-            case SIGNED:
-
-                break;
-            case NOT_SIGNED:
-                //启动fragment并把上一个Fragment清除
-                startWithPop(new SignInDelegate());
-                break;
-            default:
-
-                break;
-        }
+//        switch (tag){
+//            case SIGNED:
+                startWithPop(new EcBottomDelegate());
+//                break;
+//            case NOT_SIGNED:
+//                //启动fragment并把上一个Fragment清除
+//                startWithPop(new SignInDelegate());
+//                break;
+//            default:
+//
+//                break;
+//        }
     }
 }
