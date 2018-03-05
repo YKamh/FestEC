@@ -18,7 +18,7 @@ public class ExampleApp extends Application{
     public void onCreate() {
         super.onCreate();
         Latte.init(this)
-                .withApiHost("http://127.0.0.1/index")
+                .withApiHost("http://192.168.147.115/")
                 .withIcon(new FontAwesomeModule())
                 .withLoaderDelayed(1000)
                 .withIcon(new FontEcModule())//初始化自定义字体库
