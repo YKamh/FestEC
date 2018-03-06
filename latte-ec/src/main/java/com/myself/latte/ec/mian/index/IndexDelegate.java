@@ -40,6 +40,7 @@ public class IndexDelegate extends BottomItemDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = new RefreshHandler(mRefreshLayout);
+
     }
 
     private void initRefreshLayout() {
