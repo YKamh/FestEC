@@ -71,6 +71,7 @@ public abstract class BaseWXEntryActivity extends BaseWXActivity {
 
     private void getUserInfo(String userInfoUrl){
         RestClient.builder()
+                .url(userInfoUrl)
                 .sueccess(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {

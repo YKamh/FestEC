@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -39,7 +40,7 @@ public class IndexDelegate extends BottomItemDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = new RefreshHandler(mRefreshLayout);
+        mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConvert());
 
     }
 
@@ -51,6 +52,11 @@ public class IndexDelegate extends BottomItemDelegate {
         );
         //下拉过程中球会由小变大，回弹回由大变小,后面两个参数分别表示起始位置和结束位置
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
+    }
+
+    private void initRecyclerView(){
+        final GridLayoutManager manager =  new GridLayoutManager(getContext(), 4);
+        mRecyclerView.setLayoutManager(manager);
     }
 
     @Override
