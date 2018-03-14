@@ -2,6 +2,7 @@ package com.myself.latte.ec.mian.index;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.ui.recycler.BaseDecoration;
 import com.myself.latte.ui.refresh.RefreshHandler;
 
 import butterknife.BindView;
@@ -57,6 +59,8 @@ public class IndexDelegate extends BottomItemDelegate {
     private void initRecyclerView(){
         final GridLayoutManager manager =  new GridLayoutManager(getContext(), 4);
         mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.addItemDecoration(BaseDecoration
+                .create(ContextCompat.getColor(getContext(), R.color.app_background), 5));
     }
 
     @Override

@@ -16,12 +16,12 @@ import okhttp3.ResponseBody;
  * Created by Kamh on 2018/2/2.
  */
 
-public class DebugIntercepot extends BaseInterceptor {
+public class DebugInterceptor extends BaseInterceptor {
 
     private final String DEBUG_URL;
     private final int DEBUG_RAW_ID;
 
-    public DebugIntercepot(String debugUrl, int rawId) {
+    public DebugInterceptor(String debugUrl, int rawId) {
         this.DEBUG_URL = debugUrl;
         this.DEBUG_RAW_ID = rawId;
     }

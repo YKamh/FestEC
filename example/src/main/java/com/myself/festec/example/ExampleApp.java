@@ -6,7 +6,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.myself.latte.app.Latte;
 import com.myself.latte.ec.database.DatabaseManager;
 import com.myself.latte.ec.icon.FontEcModule;
-import com.myself.latte.net.Interceptors.DebugIntercepot;
+import com.myself.latte.net.Interceptors.DebugInterceptor;
 
 /**
  * Created by Administrator on 2018/1/15.
@@ -22,7 +22,7 @@ public class ExampleApp extends Application{
                 .withIcon(new FontAwesomeModule())
                 .withLoaderDelayed(1000)
                 .withIcon(new FontEcModule())//初始化自定义字体库
-                .withInterceptor(new DebugIntercepot("index", R.raw.test))
+                .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
                 .configure();
