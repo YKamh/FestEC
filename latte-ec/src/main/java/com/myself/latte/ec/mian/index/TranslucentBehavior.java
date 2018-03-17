@@ -28,6 +28,7 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior<Toolbar> {
         super(context, attrs);
     }
 
+    //被依赖处理的View，就是根据这个View的动作来处理依赖的View（Toolbar）
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, Toolbar child, View dependency) {
         return dependency.getId() == R.id.rv_index;
@@ -39,7 +40,13 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior<Toolbar> {
     }
 
     @Override
-    public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull Toolbar child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
+    public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout,
+                                  @NonNull Toolbar child,
+                                  @NonNull View target,
+                                  int dx,
+                                  int dy,
+                                  @NonNull int[] consumed,
+                                  int type) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
         //增加滑动距离
         mDistanceY += dy;
@@ -47,11 +54,11 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior<Toolbar> {
         final int targetHeight = child.getBottom();
 
         //当滑动时，并且距离小于 toolbar高度的时候调整渐变色
-        if (mDistanceY>0&&mDistanceY<= targetHeight){
-            final float scale = (float) mDistanceY/targetHeight;
-            final float alpha = scale*255;
+        if (mDistanceY> 0 && mDistanceY <= targetHeight){
+            final float scale = (float) mDistanceY / targetHeight;
+            final float alpha = scale * 255;
             child.setBackgroundColor(Color.argb((int)alpha,RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
-        }else if (mDistanceY > targetHeight){
+        }else if (mDistanceY > targetHeight){//防止滑动过快的时候 ，不渐变直接设置颜色
             child.setBackgroundColor(Color.rgb(RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
         }
     }

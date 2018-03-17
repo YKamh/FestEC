@@ -15,6 +15,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.ec.mian.EcBottomDelegate;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.BaseDecoration;
@@ -67,7 +68,9 @@ public class IndexDelegate extends BottomItemDelegate {
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(BaseDecoration
                 .create(ContextCompat.getColor(getContext(), R.color.app_background), 5));
-
+        //在整个底部BottomDelegate(容器)进行跳转
+        final EcBottomDelegate ecBottomDelegate = getParrentDelegate();
+        mRecyclerView.addOnItemTouchListener(IndexItemClickListener.create(ecBottomDelegate));
     }
 
     @Override

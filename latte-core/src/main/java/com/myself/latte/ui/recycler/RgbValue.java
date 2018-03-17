@@ -4,6 +4,7 @@ import com.google.auto.value.AutoValue;
 
 /**
  * Created by Kamh on 2018/3/15.
+ * 储存三原色
  */
 @AutoValue
 public abstract class RgbValue {

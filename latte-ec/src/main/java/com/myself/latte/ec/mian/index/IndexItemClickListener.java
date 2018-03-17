@@ -5,9 +5,11 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.myself.latte.delegates.LatteDelegate;
+import com.myself.latte.ec.detail.GoodsDetailDelegate;
 
 /**
  * Created by Kamh on 2018/3/16.
+ * IndexItem点击事件监听类
  */
 
 public class IndexItemClickListener extends SimpleClickListener{
@@ -18,13 +20,14 @@ public class IndexItemClickListener extends SimpleClickListener{
         this.DELEGATE = delegate;
     }
 
-    public SimpleClickListener create(LatteDelegate delegate){
+    public static SimpleClickListener create(LatteDelegate delegate){
         return new IndexItemClickListener(delegate);
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+        final GoodsDetailDelegate detailDelegate = GoodsDetailDelegate.create();
+        DELEGATE.start(detailDelegate);
     }
 
     @Override

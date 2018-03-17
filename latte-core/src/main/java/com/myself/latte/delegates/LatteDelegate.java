@@ -5,4 +5,9 @@ package com.myself.latte.delegates;
  */
 
 public abstract class LatteDelegate extends PermissionCheckerDelegate {
+
+    @SuppressWarnings("unchecked")
+    public <T extends LatteDelegate> T getParrentDelegate(){
+        return (T) getParentFragment();
+    }
 }
