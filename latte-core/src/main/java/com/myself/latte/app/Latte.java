@@ -3,6 +3,7 @@ package com.myself.latte.app;
 import android.content.Context;
 
 import java.util.HashMap;
+import java.util.logging.Handler;
 
 /**
  * Created by Administrator on 2018/1/15.
@@ -21,6 +22,10 @@ public final class Latte {
 
     public static HashMap<Object, Object> getConfiguration(){
         return Configurator.getInstance().getLatteConfigs();
+    }
+
+    public static Handler getHandler() {
+        return getConfiguration(ConfigKeys.HANDLER);
     }
 
     public static <T> T getConfiguration(Object key){

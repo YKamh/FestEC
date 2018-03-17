@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.myself.latte.app.Latte;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.DataConverter;
@@ -20,7 +19,7 @@ import com.myself.latte.ui.recycler.MultipleRecyclerAdapter;
 
 public class RefreshHandler implements
         SwipeRefreshLayout.OnRefreshListener
-, BaseQuickAdapter.RequestLoadMoreListener{
+        , BaseQuickAdapter.RequestLoadMoreListener {
 
     private final SwipeRefreshLayout REFRESH_LAYOUT;
     private final PagingBean BEAN;
@@ -29,7 +28,7 @@ public class RefreshHandler implements
     private final DataConverter CONVERTER;
 
     private RefreshHandler(SwipeRefreshLayout refreshLayout, RecyclerView recyclerView,
-                          DataConverter converter, PagingBean bean) {
+                           DataConverter converter, PagingBean bean) {
         this.REFRESH_LAYOUT = refreshLayout;
         this.RECYCLER_VIEW = recyclerView;
         this.CONVERTER = converter;
@@ -39,16 +38,15 @@ public class RefreshHandler implements
 
     //简单工厂方法
     public static RefreshHandler create(SwipeRefreshLayout refreshLayout, RecyclerView recyclerView,
-                                        DataConverter converter){
+                                        DataConverter converter) {
         return new RefreshHandler(refreshLayout, recyclerView, converter, new PagingBean());
     }
 
-    private void refresh(){
+    private void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
-
     }
 
-    public void firstPage(String url){
+    public void firstPage(String url) {
         BEAN.setDelayed(1000);
         RestClient.builder()
                 .url(url)

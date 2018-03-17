@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class BannerCreate {
 
-    public static void setDefult(ConvenientBanner<String> convenientBanner,
-                                 ArrayList<String> banners,
-                                 OnItemClickListener clickListener){
+    public static void setDefault(ConvenientBanner<String> convenientBanner,
+                                  ArrayList<String> banners,
+                                  OnItemClickListener clickListener){
         convenientBanner.setPages(new HolderCreate(), banners)
                 .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)

@@ -9,13 +9,20 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.net.RestClient;
+import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.BaseDecoration;
+import com.myself.latte.ui.recycler.MultipleFields;
+import com.myself.latte.ui.recycler.MultipleItemEntity;
 import com.myself.latte.ui.refresh.RefreshHandler;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -43,7 +50,6 @@ public class IndexDelegate extends BottomItemDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConvert());
-
     }
 
     private void initRefreshLayout() {
@@ -61,13 +67,15 @@ public class IndexDelegate extends BottomItemDelegate {
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(BaseDecoration
                 .create(ContextCompat.getColor(getContext(), R.color.app_background), 5));
+
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        mRefreshHandler.firstPage("index.php");
+        initRecyclerView();
+        mRefreshHandler.firstPage("");
     }
 
     @Override

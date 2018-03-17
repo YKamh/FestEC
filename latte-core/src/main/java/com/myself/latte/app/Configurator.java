@@ -7,6 +7,7 @@ import com.joanzapata.iconify.Iconify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import android.os.Handler;
 
 import okhttp3.Interceptor;
 
@@ -18,12 +19,14 @@ import okhttp3.Interceptor;
 public class Configurator {
     //存放配置信息的HashMap
     private static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap<>();
+    private static final Handler HANDLER = new Handler();
     private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
     private static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList<>();
 
     //初始化类实例开始时，将CONFIG_READY状态设为false
     private Configurator() {
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), false);
+        LATTE_CONFIGS.put(ConfigKeys.HANDLER, HANDLER);
     }
 
     //线程安全的懒汉模式，获取单例初始化类的实例

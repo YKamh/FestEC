@@ -18,11 +18,12 @@ public class ExampleApp extends Application{
     public void onCreate() {
         super.onCreate();
         Latte.init(this)
-                .withApiHost("http://192.168.147.115/")
+                .withApiHost("http://192.168.147.110")
+//                .withApiHost("http://www.baidu.com/")
                 .withIcon(new FontAwesomeModule())
                 .withLoaderDelayed(1000)
                 .withIcon(new FontEcModule())//初始化自定义字体库
-                .withInterceptor(new DebugInterceptor("index", R.raw.test))
+                .withInterceptor(new DebugInterceptor("text", R.raw.test))
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
                 .configure();
