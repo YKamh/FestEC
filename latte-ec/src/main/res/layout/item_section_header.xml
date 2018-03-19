@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="60dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_weight="1"
+        android:textColor="@color/we_chat_black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:paddingLeft="10dp"
+        android:gravity="center|left"
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    
+    <android.support.v7.widget.AppCompatTextView
+        android:textColor="@color/we_chat_black"
+        android:paddingRight="10dp"
+        android:text="more >"
+        android:layout_weight="1"
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -5,8 +5,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.mian.sort.SortDelegate;
+import com.myself.latte.ec.mian.sort.content.ContentDelegate;
 import com.myself.latte.ui.recycler.ItemType;
 import com.myself.latte.ui.recycler.MultipleFields;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
@@ -57,6 +59,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                             mPrePosition = currentPosition;
 
                             final int contentId = getData().get(currentPosition).getField(MultipleFields.ID);
+                            showContent(contentId);
                         }
                     }
                 });
@@ -77,6 +80,18 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void showContent(int contentId){
+        final ContentDelegate delegate = ContentDelegate.newInstance(contentId);
+        switchContent(delegate);
+    }
+
+    private void switchContent(ContentDelegate delegate){
+        final LatteDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+        if (contentDelegate!=null){
+            contentDelegate.replaceFragment(delegate, false);
         }
     }
 }
