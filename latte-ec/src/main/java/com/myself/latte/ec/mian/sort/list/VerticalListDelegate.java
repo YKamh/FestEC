@@ -14,7 +14,6 @@ import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,7 +56,7 @@ public class VerticalListDelegate extends LatteDelegate {
                     public void onSuccess(String response) {
                         final List<MultipleItemEntity> data =
                                 new VerticalListDataConverter().setJsonData(response).convert();
-                        final SortDelegate delegate = getParrentDelegate();
+                        final SortDelegate delegate = getParentDelegate();
                         final SortRecyclerAdapter adapter = new SortRecyclerAdapter(data, delegate);
                         mRecyclerView.setAdapter(adapter);
                     }
