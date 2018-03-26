@@ -3,9 +3,7 @@ package com.myself.latte.ec.discover;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebChromeClient;
 
-import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.delegates.web.WebDelegateImpl;
 import com.myself.latte.ec.R;
@@ -32,6 +30,7 @@ public class DiscoverDelegate extends BottomItemDelegate{
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
+        delegate.setTopDelegate(this.getParentDelegate());
         loadRootFragment(R.id.web_discovery_container, delegate);
     }
 

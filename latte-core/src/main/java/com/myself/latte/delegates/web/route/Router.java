@@ -35,13 +35,10 @@ public class Router {
             return true;
         }
 
-        final LatteDelegate parentDelegate = delegate.getParentDelegate();
+        final LatteDelegate topDelegate = delegate.getTopDelegate();
+
         final WebDelegateImpl webDelegate = WebDelegateImpl.create(url);
-        if (parentDelegate == null) {
-            delegate.start(webDelegate);
-        } else {
-            parentDelegate.start(webDelegate);
-        }
+        delegate.start(webDelegate);
         return true;
     }
 
@@ -72,7 +69,7 @@ public class Router {
         }
     }
 
-    public void loadPage(WebDelegate delegate, String url){
+    public void loadPage(WebDelegate delegate, String url) {
         loadPage(delegate.getWebView(), url);
     }
 }
