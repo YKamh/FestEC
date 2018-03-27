@@ -27,11 +27,11 @@ public class LatteLoader {
 
     private static final String DEFAULT_LOADER = LoaderStyle.BallClipRotatePulseIndicator.name();
 
-    public static void showLoading(Context context, Enum<LoaderStyle> loaderStyleEnum){
+    public static void showLoading(Context context, Enum<LoaderStyle> loaderStyleEnum) {
         showLoading(context, loaderStyleEnum.name());
     }
 
-    public static void showLoading(Context context, String type){
+    public static void showLoading(Context context, String type) {
 
         final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
 
@@ -43,25 +43,25 @@ public class LatteLoader {
 
         final Window dialogWindow = dialog.getWindow();
 
-        if (dialogWindow != null){
-            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-            lp.width = deviceWidth/LOADER_SIZE_SCALE;
-            lp.height = deciceHeight/LOADER_SIZE_SCALE;
-            lp.height = lp.height+deciceHeight/LOADER_OFFSER_SCALE;
+        if (dialogWindow != null) {
+            final WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = deviceWidth / LOADER_SIZE_SCALE;
+            lp.height = deciceHeight / LOADER_SIZE_SCALE;
+            lp.height = lp.height + deciceHeight / LOADER_OFFSER_SCALE;
             lp.gravity = Gravity.CENTER;
         }
         LOADERS.add(dialog);
         dialog.show();
     }
 
-    public static void showLoading(Context context){
+    public static void showLoading(Context context) {
         showLoading(context, DEFAULT_LOADER);
     }
 
-    public static void stopLoading(){
+    public static void stopLoading() {
         for (AppCompatDialog dialog : LOADERS) {
-            if (dialog != null){
-                if (dialog.isShowing()){
+            if (dialog != null) {
+                if (dialog.isShowing()) {
                     dialog.cancel();
                 }
             }

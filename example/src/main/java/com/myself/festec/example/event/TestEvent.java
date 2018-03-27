@@ -1,7 +1,9 @@
-package com.myself.latte.delegates.web.event;
+package com.myself.festec.example.event;
 
 import android.webkit.WebView;
 import android.widget.Toast;
+
+import com.myself.latte.delegates.web.event.Event;
 
 /**
  * Created by Kamh on 2018/3/26.
