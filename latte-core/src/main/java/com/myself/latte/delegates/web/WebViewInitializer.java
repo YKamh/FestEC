@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -16,6 +17,12 @@ public class WebViewInitializer {
     @SuppressLint("NewApi")
     public WebView createWebView(WebView webView) {
         WebView.setWebContentsDebuggingEnabled(true);
+
+        //Cookie
+        final CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptThirdPartyCookies(webView, true);
+        CookieManager.setAcceptFileSchemeCookies(true);
         //不能横向滚动
         webView.setHorizontalScrollBarEnabled(false);
         //不能纵向滚动

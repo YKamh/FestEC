@@ -8,6 +8,7 @@ import com.myself.festec.example.event.TestEvent;
 import com.myself.latte.ec.database.DatabaseManager;
 import com.myself.latte.ec.icon.FontEcModule;
 import com.myself.latte.net.Interceptors.DebugInterceptor;
+import com.myself.latte.net.rx.AddCookieInterceptor;
 
 /**
  * Created by Administrator on 2018/1/15.
@@ -29,6 +30,9 @@ public class ExampleApp extends Application{
                 .withWeChatAppSecret("")
                 .withJavaScriptInterface("latte")
                 .withWebEvent("test", new TestEvent())
+                //添加cookie同步拦截器
+                .withInterceptor(new AddCookieInterceptor())
+                .withApiHost("https://www.baidu.com/")
                 .configure();
         DatabaseManager.getInstance().init(this);
     }
