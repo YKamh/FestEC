@@ -1,14 +1,17 @@
 package com.myself.latte.ec.mian.car;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.myself.latte.app.Latte;
 import com.myself.latte.ec.R;
-import com.myself.latte.ui.recycler.ItemType;
 import com.myself.latte.ui.recycler.MultipleFields;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
 import com.myself.latte.ui.recycler.MultipleRecyclerAdapter;
@@ -22,6 +25,8 @@ import java.util.List;
 
 public class ShopCarAdapter extends MultipleRecyclerAdapter {
 
+    private boolean mIsSelectedAll = false;
+
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
@@ -33,8 +38,12 @@ public class ShopCarAdapter extends MultipleRecyclerAdapter {
         addItemType(ShopCarItemType.SHOP_CAR_ITEM, R.layout.item_shop_car);
     }
 
+    public void setIsSelectAll(boolean isSelectedAll){
+        this.mIsSelectedAll = isSelectedAll;
+    }
+
     @Override
-    protected void convert(MultipleViewHolder holder, MultipleItemEntity entity) {
+    protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
 
         switch (holder.getItemViewType()) {
@@ -54,6 +63,7 @@ public class ShopCarAdapter extends MultipleRecyclerAdapter {
                 final IconTextView iconMinus = holder.getView(R.id.icon_item_minus);
                 final IconTextView iconPlus = holder.getView(R.id.icon_item_plus);
                 final AppCompatTextView tvCount = holder.getView(R.id.tv_item_shop_car_count);
+                final IconTextView iconIsSelect = holder.getView(R.id.icon_item_shop_car);
                 //赋值
                 tvTitle.setText(title);
                 tvDesc.setText(desc);
@@ -62,6 +72,30 @@ public class ShopCarAdapter extends MultipleRecyclerAdapter {
                 Glide.with(mContext)
                         .load(thumb)
                         .into(imgThumb);
+
+                //在左侧勾勾渲染之前改变全选状态
+                entity.setField(ShopCarItemFields.IS_SELECTED, mIsSelectedAll);
+                final boolean isSelected = entity.getField(ShopCarItemFields.IS_SELECTED);
+                //根据数据状态显示左侧勾勾
+                if (isSelected){
+                    iconIsSelect.setTextColor(ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
+                }else{
+                    iconIsSelect.setTextColor(Color.GRAY);
+                }
+                //添加左侧勾勾点击事件
+                iconIsSelect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final boolean currentSelected = entity.getField(ShopCarItemFields.IS_SELECTED);
+                        if (currentSelected){
+                            iconIsSelect.setTextColor(Color.GRAY);
+                            entity.setField(ShopCarItemFields.IS_SELECTED, false);
+                        }else{
+                            iconIsSelect.setTextColor(ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
+                            entity.setField(ShopCarItemFields.IS_SELECTED, true);
+                        }
+                    }
+                });
                 break;
             default:
                 break;

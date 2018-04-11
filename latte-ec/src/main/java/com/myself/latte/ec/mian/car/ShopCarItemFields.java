@@ -8,5 +8,6 @@ public enum ShopCarItemFields {
     TITLE,
     DESC,
     COUNT,
-    PRICE
+    PRICE,
+    IS_SELECTED
 }
