@@ -17,6 +17,7 @@ import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,30 +28,67 @@ import butterknife.OnClick;
 
 public class ShopCarDelegate extends BottomItemDelegate implements ISuccess {
 
+    private ShopCarAdapter mAdapter = null;
+    //购物车数量标记
+    private int mCurrentCount = 0;
+    private int mTotalCount = 0;
+
+
     @BindView(R2.id.rv_shop_car)
     RecyclerView mRecyclerView = null;
-
     @BindView(R2.id.icon_shop_car_select_all)
     IconTextView mIconSelectedAll = null;
 
     @OnClick(R2.id.icon_shop_car_select_all)
-    void onClickSelectAll(){
+    void onClickSelectAll() {
         final int tag = (int) mIconSelectedAll.getTag();
-        if (tag == 0){
+        if (tag == 0) {
             mIconSelectedAll.setTextColor(ContextCompat.getColor(getContext(), R.color.app_main));
             mIconSelectedAll.setTag(1);
             mAdapter.setIsSelectAll(true);
             //更新RecyclerVIew的显示状态
-            mAdapter.notifyDataSetChanged();
-        }else{
+            mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount());
+        } else {
             mIconSelectedAll.setTextColor(Color.GRAY);
             mIconSelectedAll.setTag(0);
             mAdapter.setIsSelectAll(false);
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount());
         }
     }
 
-    private ShopCarAdapter mAdapter = null;
+    @OnClick(R2.id.tv_top_shop_car_remove_selected)
+    void onClickRemoveSelectedItem() {
+        final List<MultipleItemEntity> data = mAdapter.getData();
+        //找到要删除的数据
+        List<MultipleItemEntity> deleteEntity = new ArrayList<>();
+        for (MultipleItemEntity entity : data) {
+            final boolean isSelected = entity.getField(ShopCarItemFields.IS_SELECTED);
+            if (isSelected) {
+                deleteEntity.add(entity);
+            }
+        }
+        for (MultipleItemEntity entity : deleteEntity) {
+            int removePosition;
+            final int entityPosition = entity.getField(ShopCarItemFields.POSITION);
+            if (entityPosition > mCurrentCount - 1) {
+                removePosition = entityPosition - (mTotalCount - mCurrentCount);
+            } else {
+                removePosition = entityPosition;
+            }
+            if (removePosition <= mAdapter.getItemCount()) {
+                mAdapter.remove(removePosition);
+                mCurrentCount = mAdapter.getItemCount();
+                //更新数据
+                mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
+            }
+        }
+    }
+
+    @OnClick(R2.id.tv_top_shop_car_clear)
+    void onClickClear() {
+        mAdapter.getData().clear();
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public Object setLayout() {
