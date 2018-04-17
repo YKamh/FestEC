@@ -61,10 +61,12 @@
         android:layout_weight="8"/>
 
     <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/stub_no_item"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="8"
         android:background="@android:color/white"
+        android:layout="@layout/stub_shop_car_item"
         android:minHeight="50dp"
         android:orientation="horizontal"/>
 
@@ -125,6 +127,7 @@
                 tools:ignore="HardcodedText"/>
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_shop_total_price"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

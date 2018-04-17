@@ -1,12 +1,16 @@
 package com.myself.latte.ec.mian.car;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
@@ -26,7 +30,7 @@ import butterknife.OnClick;
  * Created by Kamh on 2018/4/9.
  */
 
-public class ShopCarDelegate extends BottomItemDelegate implements ISuccess {
+public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICarItemListener {
 
     private ShopCarAdapter mAdapter = null;
     //购物车数量标记
@@ -38,6 +42,10 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess {
     RecyclerView mRecyclerView = null;
     @BindView(R2.id.icon_shop_car_select_all)
     IconTextView mIconSelectedAll = null;
+    @BindView(R2.id.stub_no_item)
+    ViewStubCompat mStubCompat = null;
+    @BindView(R2.id.tv_shop_total_price)
+    AppCompatTextView mTotalPrice = null;
 
     @OnClick(R2.id.icon_shop_car_select_all)
     void onClickSelectAll() {
@@ -82,12 +90,32 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess {
                 mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
             }
         }
+        checkItemCount();
     }
 
     @OnClick(R2.id.tv_top_shop_car_clear)
     void onClickClear() {
         mAdapter.getData().clear();
         mAdapter.notifyDataSetChanged();
+        checkItemCount();
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void checkItemCount() {
+        final int count = mAdapter.getItemCount();
+        if (count == 0) {
+            final View stubView = mStubCompat.inflate();
+            final AppCompatTextView tvToBy = stubView.findViewById(R.id.tv_stub_to_buy);
+            tvToBy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "您该购物啦！", Toast.LENGTH_SHORT).show();
+                }
+            });
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -115,8 +143,16 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess {
     public void onSuccess(String response) {
         final ArrayList<MultipleItemEntity> data = new ShopCarDataConverter().setJsonData(response).convert();
         mAdapter = new ShopCarAdapter(data);
+        mAdapter.setICarItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        checkItemCount();
+    }
+
+    @Override
+    public void onItemClick(double itemTotalPrice) {
+        final double price = mAdapter.getTotalPrice();
+        mTotalPrice.setText(String.valueOf(price));
     }
 }
