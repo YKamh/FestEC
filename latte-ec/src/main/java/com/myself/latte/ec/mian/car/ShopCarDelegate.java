@@ -16,6 +16,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.ec.pay.FastPay;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
@@ -104,7 +105,7 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
 
     @OnClick(R2.id.tv_shop_car_pay)
     void onClickPay(){
-
+        FastPay.create(this).beginPayDialog();
     }
 
     //创建订单和支付是没有关系的
