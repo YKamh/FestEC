@@ -12,11 +12,13 @@ import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
 import com.myself.latte.ec.pay.FastPay;
+import com.myself.latte.ec.pay.IAliPayResultListener;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
@@ -32,7 +34,7 @@ import butterknife.OnClick;
  * Created by Kamh on 2018/4/9.
  */
 
-public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICarItemListener {
+public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICarItemListener, IAliPayResultListener {
 
     private ShopCarAdapter mAdapter = null;
     //购物车数量标记
@@ -105,7 +107,7 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
 
     @OnClick(R2.id.tv_shop_car_pay)
     void onClickPay(){
-        FastPay.create(this).beginPayDialog();
+        createOrder();
     }
 
     //创建订单和支付是没有关系的
@@ -123,10 +125,14 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
                 .url(orderUrl)
                 .loader(getContext())
                 .params(orderParams)
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-
+                        final int orderId = JSON.parseObject(response).getInteger("result");
+                        FastPay.create(ShopCarDelegate.this)
+                                .setPayResultListener(ShopCarDelegate.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
                     }
                 })
                 .build()
@@ -167,7 +173,7 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
         RestClient.builder()
                 .url("shop_car.php")
                 .loader(getContext())
-                .sueccess(this)
+                .success(this)
                 .build()
                 .get();
     }
@@ -188,5 +194,30 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFailed() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 }

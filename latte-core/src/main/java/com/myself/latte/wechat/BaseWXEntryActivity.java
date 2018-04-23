@@ -46,7 +46,7 @@ public abstract class BaseWXEntryActivity extends BaseWXActivity {
     private void getAuth(String authUrl){
         RestClient.builder()
                 .url(authUrl)
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -72,7 +72,7 @@ public abstract class BaseWXEntryActivity extends BaseWXActivity {
     private void getUserInfo(String userInfoUrl){
         RestClient.builder()
                 .url(userInfoUrl)
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         onSignInSuccess(response);

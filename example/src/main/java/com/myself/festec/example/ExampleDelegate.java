@@ -32,7 +32,7 @@ public class ExampleDelegate extends LatteDelegate {
 //                .url("http://127.0.0.1/index")
 //                .loader(getContext())
 //                .params("", "")
-//                .sueccess(new ISuccess() {
+//                .success(new ISuccess() {
 //                    @Override
 //                    public void onSuccess(String response) {
 //                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();

@@ -54,7 +54,7 @@ public class SignUpDelegate extends LatteDelegate {
                     .params("email", mEmail.getText().toString())
                     .params("phone", mPhone.getText().toString())
                     .params("password", mPwd.getText().toString())
-                    .sueccess(new ISuccess() {
+                    .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
                             LatteLogger.json("USER_PROFILE", response);
