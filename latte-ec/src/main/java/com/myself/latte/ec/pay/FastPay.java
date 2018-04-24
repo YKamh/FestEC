@@ -11,11 +11,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.myself.latte.app.ConfigKeys;
+import com.myself.latte.app.Latte;
 import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
+import com.myself.latte.ui.loader.LatteLoader;
+import com.myself.latte.wechat.LatteWeChat;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 /**
  * Created by Kamh on 2018/4/19.
@@ -69,7 +76,7 @@ public class FastPay implements View.OnClickListener{
         return this;
     }
 
-    public final void aliPay(int orderId){
+    private final void aliPay(int orderId){
         final String singUrl = "";
         //获取签名字符串
         RestClient.builder()
@@ -88,6 +95,41 @@ public class FastPay implements View.OnClickListener{
                 .post();
     }
 
+    private final void weChatPay(int orderId){
+        LatteLoader.stopLoading();
+        final String weChatPrePayUrl = "";
+        final IWXAPI iwxapi = LatteWeChat.getInstance().getWXAPI();
+        final String appId = Latte.getConfiguration(ConfigKeys.WE_CHAT_APP_ID);
+        iwxapi.registerApp(appId);
+        RestClient.builder()
+                .url(weChatPrePayUrl)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final JSONObject result = JSON.parseObject(response).getJSONObject("result");
+                        final String prePayId = result.getString("prepayid");
+                        final String partnerId = result.getString("partnerId");
+                        final String packageValue = result.getString("packageValue");
+                        final String timestamp = result.getString("timestamp");
+                        final String nonceStr = result.getString("nonceStr");
+                        final String paySign = result.getString("paySign");
+
+                        final PayReq payReq = new PayReq();
+                        payReq.appId = appId;
+                        payReq.partnerId = partnerId;
+                        payReq.packageValue = packageValue;
+                        payReq.timeStamp = timestamp;
+                        payReq.nonceStr = nonceStr;
+                        payReq.appId = appId;
+                        payReq.sign = paySign;
+
+                        iwxapi.sendReq(payReq);
+                    }
+                })
+                .build()
+                .post();
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -95,6 +137,7 @@ public class FastPay implements View.OnClickListener{
             aliPay(mOrderId);
             mDialog.cancel();
         }else if (id == R.id.btn_dialog_wechat){
+            weChatPay(mOrderId);
             mDialog.cancel();
         }else if (id == R.id.btn_dialog_pay_cancel){
             mDialog.cancel();
