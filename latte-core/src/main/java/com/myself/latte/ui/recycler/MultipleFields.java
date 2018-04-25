@@ -8,6 +8,7 @@ public enum MultipleFields {
 
     ITEM_TYPE,
     TEXT,
+    TITLE,
     IMAGE_URL,
     BANNERS,
     SPAN_SIZE,
