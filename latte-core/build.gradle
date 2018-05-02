@@ -76,4 +76,11 @@ dependencies {
     //Google AutoValue
     annotationProcessor 'com.google.auto.value:auto-value:1.2'
     provided 'com.google.auto.value:auto-value:1.2'
+    //图片裁剪
+    compile 'com.github.yalantis:ucrop:2.2.2-native'
+    //动态权限处理
+    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+    //工具包
+    compile 'com.blankj:utilcode:1.7.1'
 }
