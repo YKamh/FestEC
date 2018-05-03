@@ -88,7 +88,8 @@ public class CameraHandler implements View.OnClickListener{
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        DELEGATE.startActivityForResult(Intent.createChooser(intent, "选择获取图片的方式"), RequestCodes.PICK_PHOTO);
+        DELEGATE.startActivityForResult
+                (Intent.createChooser(intent, "选择获取图片的方式"), RequestCodes.PICK_PHOTO);
     }
 
     private String getPhotoName(){
