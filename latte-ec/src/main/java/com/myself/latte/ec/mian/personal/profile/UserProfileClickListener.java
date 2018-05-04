@@ -1,6 +1,7 @@
 package com.myself.latte.ec.mian.personal.profile;
 
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
@@ -10,7 +11,12 @@ import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.mian.personal.list.ListBean;
+import com.myself.latte.log.LatteLogger;
 import com.myself.latte.ui.data.DateDialogUtil;
+import com.myself.latte.ui.loader.LatteLoader;
+import com.myself.latte.util.callback.CallbackManager;
+import com.myself.latte.util.callback.CallbackType;
+import com.myself.latte.util.callback.IGlobalCallback;
 
 /**
  * Created by Kamh on 2018/4/27.
@@ -34,6 +40,13 @@ public class UserProfileClickListener extends SimpleClickListener {
         switch (id){
             case 1:
                 //开始照相或者选择图片
+                CallbackManager.getInstance().addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
+                    @Override
+                    public void executeCallback(Uri args) {
+                        LatteLogger.d("ON_CROP", args);
+                    }
+                });
+                DELEGATE.startCameraWithCheck();
                 break;
             case 2:
                 final LatteDelegate nameDelegate = bean.getLatteDelegate();

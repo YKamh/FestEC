@@ -49,11 +49,11 @@ public class Configurator {
     }
     //最终初始化的动作
     public final void configure() {
-        Utils.init(Latte.getApplicationContext());
         //初始化字体
         initIcons();
         //初始化初始化状态
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), true);
+        Utils.init(Latte.getApplicationContext());
     }
 
     //初始化的输入
