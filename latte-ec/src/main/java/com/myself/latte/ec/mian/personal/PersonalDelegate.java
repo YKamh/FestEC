@@ -9,6 +9,7 @@ import android.view.View;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.ec.mian.personal.address.AddressDelegate;
 import com.myself.latte.ec.mian.personal.list.ListAdapter;
 import com.myself.latte.ec.mian.personal.list.ListBean;
 import com.myself.latte.ec.mian.personal.order.OrderListDelegate;
@@ -67,6 +68,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         final ListBean address = new ListBean.Builder()
                 .setItemType(ITEM_NORMAL)
                 .setId(1)
+                .setLatteDelegate(new AddressDelegate())
                 .setText("收获地址")
                 .build();
         final ListBean system = new ListBean.Builder()
@@ -82,5 +84,6 @@ public class PersonalDelegate extends BottomItemDelegate {
         mRecyclerView.setLayoutManager(manager);
         final ListAdapter adapter = new ListAdapter(data);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(new PersonalOnclickListener(this));
     }
 }
