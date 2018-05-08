@@ -1,4 +1,4 @@
-package com.myself.latte.ec.mian.personal;
+package com.myself.latte.ec.mian.personal.settings;
 
 import android.view.View;
 
@@ -8,15 +8,15 @@ import com.myself.latte.delegates.LatteDelegate;
 import com.myself.latte.ec.mian.personal.list.ListBean;
 
 /**
- * Created by Kamh on 2018/5/5.
+ * Created by Kamh on 2018/5/8.
  */
 
-public class PersonalOnclickListener extends SimpleClickListener {
+public class SettingsClickListener extends SimpleClickListener {
 
     private final LatteDelegate DELEGATE;
 
-    public PersonalOnclickListener(LatteDelegate DELEGATE) {
-        this.DELEGATE = DELEGATE;
+    public SettingsClickListener(LatteDelegate delegate) {
+        this.DELEGATE = delegate;
     }
 
     @Override
@@ -25,10 +25,10 @@ public class PersonalOnclickListener extends SimpleClickListener {
         int id = bean.getId();
         switch (id){
             case 1:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getLatteDelegate());
+                //设置消息推送的开关
                 break;
             case 2:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getLatteDelegate());
+                DELEGATE.getSupportDelegate().start(bean.getLatteDelegate());
                 break;
             default:
                 break;

@@ -62,7 +62,7 @@ public class SettingDeleagete extends LatteDelegate {
         final ListBean about = new ListBean.Builder()
                 .setItemType(ITEM_NORMAL)
                 .setId(2)
-                .setLatteDelegate(new SettingDeleagete())
+                .setLatteDelegate(new AboutDelegate())
                 .setText("关于")
                 .build();
         final List<ListBean> data = new ArrayList<>();
@@ -74,5 +74,6 @@ public class SettingDeleagete extends LatteDelegate {
         final ListAdapter adapter = new ListAdapter(data);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnItemTouchListener(new PersonalOnclickListener(this));
+        mRecyclerView.addOnItemTouchListener(new SettingsClickListener(this));
     }
 }
