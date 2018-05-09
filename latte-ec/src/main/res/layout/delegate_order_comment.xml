@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -58,6 +59,15 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/tv_comment_title"
             android:layout_below="@+id/img_order_comment"/>
+
+        <com.myself.latte.ui.widget.AutoPhotoLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/custom_auto_photo_layout"
+            app:icon_size="10sp"
+            app:line_count="5"
+            app:item_margin="3"
+            app:max_count="5"/>
 
     </RelativeLayout>
 
