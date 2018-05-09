@@ -1,6 +1,7 @@
 package com.myself.latte.ui.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -52,6 +53,40 @@ public class StarLayout extends LinearLayoutCompat implements View.OnClickListen
         }
     }
 
+    public int getStarCount(){
+        int count = 0;
+        for (int i = 0; i<STAR_TOTAL_COUNT; i++){
+            final IconTextView star = STARS.get(i);
+            final boolean isSelect = (boolean) star.getTag(R.id.star_is_select);
+            if (isSelect){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void selectStar(int count){
+        for (int i = 0; i <= count; i++){
+            if (i<=count){
+                final IconTextView star = STARS.get(i);
+                star.setText(ICON_SELECTED);
+                star.setTextColor(Color.RED);
+                star.setTag(R.id.star_is_select, true);
+            }
+        }
+    }
+
+    private void unSelectStar(int count){
+        for (int i = 0; i <STAR_TOTAL_COUNT; i++){
+            if (i>=count){
+                final IconTextView star = STARS.get(i);
+                star.setText(ICON_UN_SELECT);
+                star.setTextColor(Color.GRAY);
+                star.setTag(R.id.star_is_select, false);
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         final IconTextView star = (IconTextView) v;
@@ -60,9 +95,9 @@ public class StarLayout extends LinearLayoutCompat implements View.OnClickListen
         //获取点击状态
         final boolean isSelect = (boolean) star.getTag(R.id.star_is_select);
         if (!isSelect){
-
+            selectStar(count);
         }else{
-
+            unSelectStar(count);
         }
     }
 }
