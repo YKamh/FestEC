@@ -3,9 +3,11 @@ package com.myself.latte.ui.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 
 import com.joanzapata.iconify.widget.IconTextView;
@@ -24,7 +26,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
     private int mCurrentNum = 0;
     private int mMaxNum = 0;
     private int mMaxLineNum = 0;
-    private IconTextView mIconTextView = null;
+    private IconTextView mIconAdd = null;
     private LayoutParams lp = null;
     //要删除的图片ID
     private int mDeleteId = 0;
@@ -38,6 +40,9 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
 
     private static final List<List<View>> ALL_VIEWS = new ArrayList<>();
     private static final List<Integer> LINE_HEIGHT = new ArrayList<>();
+
+    //防止多次的测量和布局过程
+    private boolean mIsOnceInitOnMeasure = false;
 
     public AutoPhotoLayout(Context context) {
         this(context, null);
@@ -55,5 +60,84 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
         mImageMargin = typedArray.getInt(R.styleable.camera_flow_layout_item_margin, 0);
         mIconSize = typedArray.getInt(R.styleable.camera_flow_layout_icon_size, 20);
         typedArray.recycle();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        final int sizeWith = MeasureSpec.getSize(widthMeasureSpec);
+        final int modeWith = MeasureSpec.getMode(widthMeasureSpec);
+        final int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
+        final int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
+        //wrap_content
+        int width = 0;
+        int height = 0;
+        //记录每一行的高度和宽度
+        int lineWith = 0;
+        int lineHeight = 0;
+        //得到内部元素个数
+        int cCount = getChildCount();
+        for (int i = 0; i< cCount; i++){
+            final View child = getChildAt(i);
+            //测量子View的宽和高
+            measureChild(child, widthMeasureSpec, heightMeasureSpec);
+            //得到LayoutParams
+            final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+            //获取子View边距宽度
+            final int childWith = child.getMeasuredWidth()+lp.leftMargin+lp.rightMargin;
+            final int childHeight = child.getMeasuredHeight()+lp.topMargin+lp.bottomMargin;
+            //换行
+            if (lineWith+childWith>sizeWith-getPaddingLeft()-getPaddingRight()){
+                //对比得到最大宽度
+                width = Math.max(width, lineWith);
+                //重置lineWidth
+                lineWith = childWith;
+                height+=lineHeight;
+                lineHeight = childHeight;
+            }else{
+                //未换行
+                lineWith+=childWith;
+                //得到当前最大高度
+                lineHeight = Math.max(lineHeight, childHeight);
+            }
+            //最后一个子控件
+            if (i == cCount - 1){
+                width = Math.max(lineWith, width);
+                //判断是否超过最大拍照限制
+                height+=lineHeight;
+            }
+        }
+        setMeasuredDimension(
+                modeWith == MeasureSpec.EXACTLY?sizeWith:width+getPaddingLeft(),
+                modeHeight == MeasureSpec.EXACTLY?sizeHeight:height+getPaddingTop()
+        );
+        //设置一行图片的宽高
+        final int imagesSideLen = sizeWith/mMaxLineNum;
+        //只初始化一次
+        if (!mIsOnceInitOnMeasure){
+            lp = new LayoutParams(imagesSideLen, imagesSideLen);
+            mIsOnceInitOnMeasure = true;
+        }
+    }
+
+    private void initAddIcon(){
+        mIconAdd = new IconTextView(getContext());
+        mIconAdd.setText(ICON_TEXT);
+        mIconAdd.setGravity(Gravity.CENTER);
+        mIconAdd.setTextSize(mIconSize);
+        mIconAdd.setBackgroundResource(R.drawable.border_text);
+        mIconAdd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDelegate.startCameraWithCheck();
+            }
+        });
+        this.addView(mIconAdd);
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        initAddIcon();
+        mTargetDialog = new AlertDialog.Builder(getContext()).create();
     }
 }
