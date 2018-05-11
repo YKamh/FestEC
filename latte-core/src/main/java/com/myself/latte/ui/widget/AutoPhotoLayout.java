@@ -4,12 +4,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.R;
 import com.myself.latte.delegates.LatteDelegate;
@@ -30,7 +38,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
     private LayoutParams lp = null;
     //要删除的图片ID
     private int mDeleteId = 0;
-    private AppCompatImageView mTarget = null;
+    private AppCompatImageView mTargetImageView = null;
     private int mImageMargin = 0;
     private LatteDelegate mDelegate = null;
     private List<View> mLineViews = null;
@@ -43,7 +51,11 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
 
     //防止多次的测量和布局过程
     private boolean mIsOnceInitOnMeasure = false;
-    private boolean mHasInitOnLayou = false;
+    private boolean mHasInitOnLayout = false;
+
+    private static final RequestOptions OPTIONS = new RequestOptions()
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.NONE);
 
     public AutoPhotoLayout(Context context) {
         this(context, null);
@@ -59,8 +71,85 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
         mMaxNum = typedArray.getInt(R.styleable.camera_flow_layout_max_count, 1);
         mMaxLineNum = typedArray.getInt(R.styleable.camera_flow_layout_line_count, 3);
         mImageMargin = typedArray.getInt(R.styleable.camera_flow_layout_item_margin, 0);
-        mIconSize = typedArray.getInt(R.styleable.camera_flow_layout_icon_size, 20);
+        mIconSize = typedArray.getDimension(R.styleable.camera_flow_layout_icon_size, 20);
         typedArray.recycle();
+    }
+
+    public final void setDelegate(LatteDelegate delegate){
+        this.mDelegate = delegate;
+    }
+
+    public final void onCropTarget(Uri uri){
+        createNewImageView();
+        Glide.with(mDelegate).load(uri).apply(OPTIONS).into(mTargetImageView);
+    }
+
+    private void createNewImageView(){
+        mTargetImageView = new AppCompatImageView(getContext());
+        mTargetImageView.setId(mCurrentNum);
+        mTargetImageView.setLayoutParams(lp);
+        mTargetImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取要删除图片的ID
+                mDeleteId = v.getId();
+                mTargetDialog.show();
+                final Window window = mTargetDialog.getWindow();
+                if (window!=null){
+                    window.setContentView(R.layout.dialog_image_click_panel);
+                    window.setGravity(Gravity.BOTTOM);
+                    window.setWindowAnimations(R.style.anim_panel_up_from_bottom);
+                    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    final WindowManager.LayoutParams lp = window.getAttributes();
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                    lp.dimAmount = 0.5f;
+                    window.setAttributes(lp);
+                    window.findViewById(R.id.dialog_image_clicked_btn_delete)
+                            .setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //得到图片
+                                    final AppCompatImageView deleteImageView = findViewById(mDeleteId);
+                                    //设置图片逐渐消失的动画
+                                    final AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                                    alphaAnimation.setDuration(500);
+                                    alphaAnimation.setRepeatCount(0);
+                                    alphaAnimation.setFillAfter(true);
+                                    alphaAnimation.setStartOffset(0);
+                                    deleteImageView.setAnimation(alphaAnimation);
+                                    alphaAnimation.start();
+                                    AutoPhotoLayout.this.removeView(deleteImageView);
+                                    mCurrentNum -= 1;
+                                    //当数目达到上限是隐藏添加按钮，不足时显示
+                                    if (mCurrentNum < mMaxNum){
+                                        mIconAdd.setVisibility(VISIBLE);
+                                    }
+                                    mTargetDialog.cancel();
+                                }
+                            });
+                    window.findViewById(R.id.dialog_image_clicked_btn_undetermined).setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mTargetDialog.cancel();
+                        }
+                    });
+                    window.findViewById(R.id.dialog_image_clicked_btn_cancel).setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mTargetDialog.cancel();
+                        }
+                    });
+                }
+            }
+        });
+        //添加子View的时候传入位置
+        this.addView(mTargetImageView, mCurrentNum);
+        mCurrentNum++;
+        //当添加数目大于MaxNum的时候，隐藏添加建
+        if (mCurrentNum>=mMaxNum){
+            mIconAdd.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -129,9 +218,9 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
         int lineWidth = 0;
         int lineHeight = 0;
 
-        if (!mHasInitOnLayou){
+        if (!mHasInitOnLayout){
             mLineViews = new ArrayList<>();
-            mHasInitOnLayou = true;
+            mHasInitOnLayout = true;
         }
         final int cCount = getChildCount();
         for (int i = 0; i< cCount; i++){
@@ -188,7 +277,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat{
             top += lineHeight;
         }
         mIconAdd.setLayoutParams(lp);
-        mHasInitOnLayou = false;
+        mHasInitOnLayout = false;
     }
 
     private void initAddIcon(){
