@@ -8,5 +8,6 @@ public enum CallbackType {
 
     ON_CROP,
     TAG_OPEN_PUSH,
-    TAG_STOP_POSH
+    TAG_STOP_POSH,
+    ON_SCAN
 }

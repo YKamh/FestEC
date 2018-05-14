@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.myself.latte.ui.camera.CameraImageBean;
 import com.myself.latte.ui.camera.LatteCamera;
 import com.myself.latte.ui.camera.RequestCodes;
+import com.myself.latte.ui.scanner.ScannerDelegate;
 import com.myself.latte.util.callback.CallbackManager;
 import com.myself.latte.util.callback.CallbackType;
 import com.myself.latte.util.callback.IGlobalCallback;
@@ -39,14 +41,24 @@ public abstract class PermissionCheckerDelegate extends BaseDelegates{
 
     //真正调用的方法
     public void startCameraWithCheck(){
-        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this);
+//        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this);
+    }
+
+    //扫描二维码
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void startScan(BaseDelegates delegates){
+        delegates.getSupportDelegate().startForResult(new ScannerDelegate(), RequestCodes.SCAN);
+    }
+
+    public void startScanWithCheck(BaseDelegates delegates){
+//        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this, delegates);
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionCheckerDelegatePermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+//        PermissionCheckerDelegatePermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
@@ -122,4 +134,5 @@ public abstract class PermissionCheckerDelegate extends BaseDelegates{
             }
         }
     }
+
 }
