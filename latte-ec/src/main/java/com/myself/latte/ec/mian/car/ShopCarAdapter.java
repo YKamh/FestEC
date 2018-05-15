@@ -125,7 +125,7 @@ public class ShopCarAdapter extends MultipleRecyclerAdapter {
                                     .url("shop_car_count.php")
                                     .loader(mContext)
                                     .params("count", currentCount)
-                                    .sueccess(new ISuccess() {
+                                    .success(new ISuccess() {
                                         @Override
                                         public void onSuccess(String response) {
                                             int countNum = Integer.parseInt(tvCount.getText().toString());
@@ -152,7 +152,7 @@ public class ShopCarAdapter extends MultipleRecyclerAdapter {
                                     .url("shop_car_count.php")
                                     .loader(mContext)
                                     .params("count", currentCount)
-                                    .sueccess(new ISuccess() {
+                                    .success(new ISuccess() {
                                         @Override
                                         public void onSuccess(String response) {
                                             int countNum = Integer.parseInt(tvCount.getText().toString());

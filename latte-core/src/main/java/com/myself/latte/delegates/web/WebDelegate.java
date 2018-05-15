@@ -26,7 +26,6 @@ public abstract class WebDelegate extends LatteDelegate implements IWebViewIniti
     private LatteDelegate mTopDelegate = null;
 
     public WebDelegate() {
-
     }
 
     public abstract IWebViewInitializer setInitializer();

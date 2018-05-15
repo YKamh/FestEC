@@ -12,6 +12,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "3e7d041bbcd749d0862304fb",
+                JPUSH_CHANNEL: "developer-default",
+        ]
     }
     buildTypes {
         release {
@@ -32,4 +43,6 @@ dependencies {
     annotationProcessor project(':latte-compiler')
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'cn.jiguang.sdk:jpush:3.0.1'
+    compile 'cn.jiguang.sdk:jcore:1.1.0'
 }

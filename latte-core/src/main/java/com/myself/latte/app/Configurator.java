@@ -2,6 +2,7 @@ package com.myself.latte.app;
 
 import android.app.Activity;
 
+import com.blankj.utilcode.util.Utils;
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 import com.myself.latte.delegates.web.event.Event;
@@ -52,6 +53,7 @@ public class Configurator {
         initIcons();
         //初始化初始化状态
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), true);
+        Utils.init(Latte.getApplicationContext());
     }
 
     //初始化的输入

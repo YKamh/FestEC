@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
@@ -17,8 +18,12 @@ import com.myself.latte.ec.R2;
 import com.myself.latte.ec.mian.EcBottomDelegate;
 import com.myself.latte.ui.recycler.BaseDecoration;
 import com.myself.latte.ui.refresh.RefreshHandler;
+import com.myself.latte.util.callback.CallbackManager;
+import com.myself.latte.util.callback.CallbackType;
+import com.myself.latte.util.callback.IGlobalCallback;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Kamh on 2018/3/1.
@@ -41,9 +46,21 @@ public class IndexDelegate extends BottomItemDelegate {
 
     private RefreshHandler mRefreshHandler = null;
 
+    @OnClick(R2.id.icon_index_scan)
+    void onClickScanQrCode(){
+        startScanWithCheck(getParentDelegate());
+    }
+
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConvert());
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
+                    @Override
+                    public void executeCallback(@Nullable String args) {
+
+                    }
+                });
     }
 
     private void initRefreshLayout() {

@@ -17,6 +17,7 @@ import com.myself.latte.ec.sign.SignUpDelegate;
 import com.myself.latte.ui.launcher.ILauncherListener;
 import com.myself.latte.ui.launcher.OnLauncherFinishTag;
 
+import cn.jpush.android.api.JPushInterface;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleActivity extends ProxyActivity implements
@@ -63,5 +64,17 @@ public class ExampleActivity extends ProxyActivity implements
 //
 //                break;
 //        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }

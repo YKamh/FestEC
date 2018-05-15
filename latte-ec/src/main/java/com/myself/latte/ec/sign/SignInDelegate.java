@@ -48,7 +48,7 @@ public class SignInDelegate extends LatteDelegate {
                     .url("sign_up")
                     .params("email", mEmail.getText().toString())
                     .params("password", mPwd.getText().toString())
-                    .sueccess(new ISuccess() {
+                    .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
                             LatteLogger.json("USER_PROFILE", response);
@@ -74,7 +74,7 @@ public class SignInDelegate extends LatteDelegate {
 
     @OnClick(R2.id.tv_link_sign_up)
     void onClickLink(){
-        start(new SignUpDelegate());
+        getSupportDelegate().start(new SignUpDelegate());
     }
 
     //输入框验证方法

@@ -55,7 +55,7 @@ public class ContentDelegate extends LatteDelegate{
         RestClient.builder()
                 .url("sort_content_list.php")
                 .params("contentId", mContentId)
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         mData = new SectionDataConverter().converter(response);

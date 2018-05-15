@@ -2,7 +2,6 @@ package com.myself.latte.ui.refresh;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -50,7 +49,7 @@ public class RefreshHandler implements
         BEAN.setDelayed(1000);
         RestClient.builder()
                 .url(url)
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         final JSONObject object = JSON.parseObject(response);

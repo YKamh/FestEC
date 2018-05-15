@@ -12,16 +12,20 @@ import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
+import com.myself.latte.ec.pay.FastPay;
+import com.myself.latte.ec.pay.IAliPayResultListener;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.MultipleItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,12 +34,13 @@ import butterknife.OnClick;
  * Created by Kamh on 2018/4/9.
  */
 
-public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICarItemListener {
+public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICarItemListener, IAliPayResultListener {
 
     private ShopCarAdapter mAdapter = null;
     //购物车数量标记
     private int mCurrentCount = 0;
     private int mTotalCount = 0;
+    private double mTotalPrice = 0.00;
 
 
     @BindView(R2.id.rv_shop_car)
@@ -45,7 +50,7 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
     @BindView(R2.id.stub_no_item)
     ViewStubCompat mStubCompat = null;
     @BindView(R2.id.tv_shop_total_price)
-    AppCompatTextView mTotalPrice = null;
+    AppCompatTextView mTvTotalPrice = null;
 
     @OnClick(R2.id.icon_shop_car_select_all)
     void onClickSelectAll() {
@@ -100,6 +105,40 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
         checkItemCount();
     }
 
+    @OnClick(R2.id.tv_shop_car_pay)
+    void onClickPay(){
+        createOrder();
+    }
+
+    //创建订单和支付是没有关系的
+    private void createOrder(){
+        final String orderUrl = "";
+        final WeakHashMap<String, Object> orderParams = new WeakHashMap<>();
+        orderParams.put("userId", 264392);
+        orderParams.put("amount", 0.01);
+        orderParams.put("comment", "测试支付");
+        orderParams.put("type", 1);
+        orderParams.put("orderType", 0);
+        orderParams.put("isanonymous", true);
+        orderParams.put("followeduer", 0);
+        RestClient.builder()
+                .url(orderUrl)
+                .loader(getContext())
+                .params(orderParams)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final int orderId = JSON.parseObject(response).getInteger("result");
+                        FastPay.create(ShopCarDelegate.this)
+                                .setPayResultListener(ShopCarDelegate.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
+                    }
+                })
+                .build()
+                .post();
+    }
+
     @SuppressLint("RestrictedApi")
     private void checkItemCount() {
         final int count = mAdapter.getItemCount();
@@ -134,7 +173,7 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
         RestClient.builder()
                 .url("shop_car.php")
                 .loader(getContext())
-                .sueccess(this)
+                .success(this)
                 .build()
                 .get();
     }
@@ -147,12 +186,38 @@ public class ShopCarDelegate extends BottomItemDelegate implements ISuccess, ICa
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        mTotalPrice = mAdapter.getTotalPrice();
         checkItemCount();
     }
 
     @Override
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getTotalPrice();
-        mTotalPrice.setText(String.valueOf(price));
+        mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFailed() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 }

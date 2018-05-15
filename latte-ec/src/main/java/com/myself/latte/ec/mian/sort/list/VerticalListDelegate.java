@@ -51,7 +51,7 @@ public class VerticalListDelegate extends LatteDelegate {
         RestClient.builder()
                 .url("sort_list.php")
                 .loader(getContext())
-                .sueccess(new ISuccess() {
+                .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         final List<MultipleItemEntity> data =

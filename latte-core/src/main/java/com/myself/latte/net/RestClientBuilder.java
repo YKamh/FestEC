@@ -93,7 +93,7 @@ public class RestClientBuilder {
         return this;
     }
 
-    public final RestClientBuilder sueccess(ISuccess iSuccess){
+    public final RestClientBuilder success(ISuccess iSuccess){
         this.mISuccess = iSuccess;
         return this;
     }
