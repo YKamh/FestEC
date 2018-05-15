@@ -80,8 +80,10 @@ dependencies {
     //图片裁剪
     compile 'com.github.yalantis:ucrop:2.2.1-native'
     //动态权限处理
-    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+//    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
+//    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+    compile 'com.github.hotchemi:permissionsdispatcher:3.2.0'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.2.0'
     //工具包
     compile 'com.blankj:utilcode:1.7.1'
     //二维码扫描

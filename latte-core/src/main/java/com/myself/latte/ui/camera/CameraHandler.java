@@ -1,6 +1,5 @@
 package com.myself.latte.ui.camera;
 
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,7 +26,6 @@ import java.io.File;
  */
 
 public class CameraHandler implements View.OnClickListener{
-
 
     private final AlertDialog DIALOG;
     private final PermissionCheckerDelegate DELEGATE;

@@ -41,7 +41,7 @@ public abstract class PermissionCheckerDelegate extends BaseDelegates{
 
     //真正调用的方法
     public void startCameraWithCheck(){
-//        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this);
+        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithPermissionCheck(this);
     }
 
     //扫描二维码
@@ -52,13 +52,14 @@ public abstract class PermissionCheckerDelegate extends BaseDelegates{
 
     public void startScanWithCheck(BaseDelegates delegates){
 //        PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this, delegates);
+        PermissionCheckerDelegatePermissionsDispatcher.startScanWithPermissionCheck(this, delegates);
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        PermissionCheckerDelegatePermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        PermissionCheckerDelegatePermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
