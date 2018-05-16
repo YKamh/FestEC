@@ -1,11 +1,13 @@
 package com.myself.latte.ec.detail;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -90,6 +92,15 @@ public class GoodsDetailDelegate extends LatteDelegate implements AppBarLayout.O
         mCollapsingToolbarLayout.setContentScrimColor(Color.WHITE);
         mAppBar.addOnOffsetChangedListener(this);
         initData();
+        initTabLayout();
+    }
+
+    private void initTabLayout(){
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.app_main));
+        mTabLayout.setTabTextColors(ColorStateList.valueOf(Color.BLACK));
+        mTabLayout.setBackgroundColor(Color.WHITE);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void initData(){
@@ -101,9 +112,15 @@ public class GoodsDetailDelegate extends LatteDelegate implements AppBarLayout.O
                     @Override
                     public void onSuccess(String response) {
                         final JSONObject data = JSON.parseObject(response).getJSONObject("data");
-
+                        initBanner(data);
+                        initGoodsInfo(data);
                     }
                 }).build().get();
+    }
+
+    private void initGoodsInfo(JSONObject data){
+        final String goodsData = data.toJSONString();
+        getSupportDelegate().loadRootFragment(R.id.frame_goods_info, GoodsInfoDelegate.create(goodsData));
     }
 
     private void initBanner(JSONObject data){
