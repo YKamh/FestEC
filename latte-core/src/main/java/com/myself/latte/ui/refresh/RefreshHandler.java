@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.myself.latte.app.Latte;
 import com.myself.latte.net.RestClient;
 import com.myself.latte.net.callback.ISuccess;
 import com.myself.latte.ui.recycler.DataConverter;
@@ -66,6 +67,36 @@ public class RefreshHandler implements
                 .get();
     }
 
+    private void paging(final String url){
+        final int pageSize = BEAN.getPageSize();
+        final int currentCount = BEAN.getCurrentCount();
+        final int total = BEAN.getTotal();
+        final int index = BEAN.getPageIndex();
+
+        if (mAdapter.getData().size() < pageSize || currentCount >= total){
+            mAdapter.loadMoreEnd(true);
+        }else{
+            Latte.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RestClient.builder()
+                            .url(url + index)
+                            .success(new ISuccess() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    mAdapter.addData(CONVERTER.setJsonData(response).convert());
+                                    //累加数量
+                                    BEAN.setCurrentCount(mAdapter.getData().size());
+                                    mAdapter.loadMoreComplete();
+                                    BEAN.addIndex();
+                                }
+                            })
+                            .build().get();
+                }
+            }, 1000);
+        }
+    }
+
     @Override
     public void onRefresh() {
         refresh();
@@ -73,6 +104,6 @@ public class RefreshHandler implements
 
     @Override
     public void onLoadMoreRequested() {
-
+        paging("refresh.php?index=");
     }
 }

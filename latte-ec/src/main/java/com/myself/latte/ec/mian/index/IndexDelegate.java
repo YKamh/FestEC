@@ -16,6 +16,7 @@ import com.myself.latte.delegates.bottom.BottomItemDelegate;
 import com.myself.latte.ec.R;
 import com.myself.latte.ec.R2;
 import com.myself.latte.ec.mian.EcBottomDelegate;
+import com.myself.latte.ec.mian.index.search.SearchDelegate;
 import com.myself.latte.ui.recycler.BaseDecoration;
 import com.myself.latte.ui.refresh.RefreshHandler;
 import com.myself.latte.util.callback.CallbackManager;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
  * Created by Kamh on 2018/3/1.
  */
 
-public class IndexDelegate extends BottomItemDelegate {
+public class IndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener{
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -61,6 +62,7 @@ public class IndexDelegate extends BottomItemDelegate {
 
                     }
                 });
+        mSearchView.setOnFocusChangeListener(this);
     }
 
     private void initRefreshLayout() {
@@ -96,4 +98,10 @@ public class IndexDelegate extends BottomItemDelegate {
         return R.layout.delegate_index;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+        }
+    }
 }
