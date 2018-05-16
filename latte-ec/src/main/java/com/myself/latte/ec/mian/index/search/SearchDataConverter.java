@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class SearchDataConverter extends DataConverter {
 
-    public static final String TAG_SEARCH_HESTORY = "search_history";
+    public static final String TAG_SEARCH_HISTORY = "search_history";
 
     @Override
     public ArrayList<MultipleItemEntity> convert() {
-        final String jsonStr = LattePreference.getCustomAppProfile(TAG_SEARCH_HESTORY);
+        final String jsonStr = LattePreference.getCustomAppProfile(TAG_SEARCH_HISTORY);
         if (jsonStr!=null){
             final JSONArray array = JSONArray.parseArray(jsonStr);
             final int size = array.size();

@@ -59,7 +59,7 @@ public class SearchDelegate extends LatteDelegate {
     private void saveItem(String item){
         if (!StringUtils.isEmpty(item) && !StringUtils.isSpace(item)){
             List<String> history;
-            final String historyStr = LattePreference.getCustomAppProfile(SearchDataConverter.TAG_SEARCH_HESTORY);
+            final String historyStr = LattePreference.getCustomAppProfile(SearchDataConverter.TAG_SEARCH_HISTORY);
             if (StringUtils.isEmpty(historyStr)){
                 history = new ArrayList<>();
             }else{
@@ -67,7 +67,7 @@ public class SearchDelegate extends LatteDelegate {
             }
             history.add(item);
             final String json = JSON.toJSONString(history);
-            LattePreference.addCustomAppProfile(SearchDataConverter.TAG_SEARCH_HESTORY, json);
+            LattePreference.addCustomAppProfile(SearchDataConverter.TAG_SEARCH_HISTORY, json);
         }
     }
 
