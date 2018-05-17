@@ -95,6 +95,11 @@ public class GoodsDetailDelegate extends LatteDelegate implements AppBarLayout.O
         initTabLayout();
     }
 
+    private void initPager(JSONObject data){
+        final TabPagerAdapter adapter = new TabPagerAdapter(getFragmentManager(), data);
+        mViewPager.setAdapter(adapter);
+    }
+
     private void initTabLayout(){
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.app_main));
@@ -114,6 +119,7 @@ public class GoodsDetailDelegate extends LatteDelegate implements AppBarLayout.O
                         final JSONObject data = JSON.parseObject(response).getJSONObject("data");
                         initBanner(data);
                         initGoodsInfo(data);
+                        initPager(data);
                     }
                 }).build().get();
     }

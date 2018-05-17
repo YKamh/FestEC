@@ -46,7 +46,7 @@ dependencies {
     compile project(':latte-ec')
     provided project(':latte-annotations')
     annotationProcessor project(':latte-compiler')
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'cn.jiguang.sdk:jpush:3.0.1'
     compile 'cn.jiguang.sdk:jcore:1.1.0'
 }
