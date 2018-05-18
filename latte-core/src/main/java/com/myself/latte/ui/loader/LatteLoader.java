@@ -39,15 +39,15 @@ public class LatteLoader {
         dialog.setContentView(avLoadingIndicatorView);
 
         int deviceWidth = DimenUtil.getScreenWidth();
-        int deciceHeight = DimenUtil.getScreenHeight();
+        int deviceHeight = DimenUtil.getScreenHeight();
 
         final Window dialogWindow = dialog.getWindow();
 
         if (dialogWindow != null) {
             final WindowManager.LayoutParams lp = dialogWindow.getAttributes();
             lp.width = deviceWidth / LOADER_SIZE_SCALE;
-            lp.height = deciceHeight / LOADER_SIZE_SCALE;
-            lp.height = lp.height + deciceHeight / LOADER_OFFSER_SCALE;
+            lp.height = deviceHeight / LOADER_SIZE_SCALE;
+            lp.height = lp.height + deviceHeight / LOADER_OFFSER_SCALE;
             lp.gravity = Gravity.CENTER;
         }
         LOADERS.add(dialog);
